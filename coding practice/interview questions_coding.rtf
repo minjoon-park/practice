@@ -1,0 +1,875 @@
+{\rtf1\ansi\ansicpg1252\deff0\deflang1033\deflangfe1042{\fonttbl{\f0\fmodern\fprq1\fcharset0 Courier New;}{\f1\fswiss\fprq2\fcharset0 Calibri;}{\f2\froman\fprq2\fcharset2 Symbol;}{\f3\fswiss\fprq2\fcharset0 Arial;}}
+{\colortbl ;\red68\green85\blue136;\red17\green17\blue17;\red0\green153\blue153;\red153\green153\blue136;\red0\green0\blue0;\red34\green34\blue34;\red255\green255\blue255;\red0\green0\blue255;\red51\green51\blue51;}
+{\*\generator Msftedit 5.41.21.2510;}\viewkind4\uc1\pard\nowidctlpar\b\f0\fs22 Given a function which produces a random integer in the range 1 to 5, write a function which  produces a random integer in the range 1 to 7.\par
+\b0\f1\par
+\f0 int f() \{\par
+  return g() * 7  / 5;\par
+\}\par
+\b\f1\par
+\par
+\line\par
+\page\f0 Write a function f(a, b) which takes two character string arguments and returns a string containing only the characters found in both strings in the order of a. Write a version which is order N-squared and one which is order N.\f1\par
+\b0\par
+\f0 void CharCompNN(string a, string b) \{\par
+  for(char x : a)\par
+    for(char y : b)\par
+      if(x == y) \{\par
+        cout << x << " ";\par
+        break;\par
+      \}\par
+\}\f1\par
+\par
+\par
+\f0 void CharCompN(string a, string b) \{\par
+  int b_array[95] = \{0\};\par
+\par
+  for(int y : b)\par
+    ++b_array[y - 32];\par
+\par
+  for(int x : a) \{\par
+    if(b_array[x - 32] != 0)\par
+      cout << (char)x;\par
+    else\par
+      cout << " ";\par
+  \}\par
+\}\par
+\f1\par
+\par
+\b\page\f0 Write a function (with helper functions if needed) called to Excel that takes an excel column value  (A,B,C,D\'85AA,AB,AC,\'85 AAA..) and returns a corresponding integer value (A=1,B=2,\'85 AA=27..).\par
+\b0\f1\par
+\f0 int ExcelColtoInt(string a) \{\par
+  int x = 0;\par
+\par
+  for(int y : a)\par
+    x = 26 * x + y - 64;\par
+\par
+  return x;\par
+\}\par
+\b\f1\page\f0 Tree search algorithms. Write BFS and DFS code, explain run time and space requirements. Modify the code to handle trees with weighted edges and loops with BFS and DFS, make the code print out path to goal state.\par
+\b0\f1\par
+\f0 DFS:\par
+Initialize - all vertices are white, all parents are NULL, time = 0.\par
+Run for each vertex, v - if it\rquote s white, call DFV(v).\par
+DFV - paint v gray, ++time, discovery time(v) = time, run for each vertex u of v\rquote s adjacency list: if it\rquote s white, set its parent = v, call DFV(u). After v\rquote s adjacency list is exhausted, paint v black, ++time, finishing time(v) = time.\f1\par
+\par
+\f0 BFS:\par
+Initialize \endash  all vertices are white, all parents are NULL, all distances are infty. Then, the root: gray, distance = 0. Enqueue.\f1\par
+\f0 While the queue is not empty, Dequeue v. Run for each vertex u of its adjacency list: if it\rquote s white, paint it gray, d(u) = d(v) + 1, parent(u) = v, Enqueue.\par
+Once v\rquote s adjacency list is exhausted, paint v black. \par
+\par
+\b\f1\page\f0 You are given a linked list of numbers. When you reach the end of the list you will come back to the beginning of the list (a circular list). Write the most efficient algorithm to find the minimum # in this list. Find any given # in the list. The numbers in the list are always increasing but you don\rquote t know where the circular list begins, i\f1 .\f0 e\f1 .\f0 : 38, 40, 55, 89, 6, 13, 20, 23, 36.\par
+\b0\f1\par
+\pard\tx916\tx1832\tx2748\tx3664\tx4580\tx5496\tx6412\tx7328\tx8244\tx9160\tx10076\tx10992\tx11908\tx12824\tx13740\tx14656\cf1\f0 int\cf2  binsearch(\cf1 int\cf2 * v, \cf1 int\cf2  x, \cf1 int\cf2  p, \cf1 int\cf2  q) \{\par
+  if (p <= q) \{\par
+    \cf1 int\cf2  mid = (p + q) / \cf3 2\cf2 ;\par
+    if (x < v[mid]) return binsearch(v, x, p, mid - \cf3 1\cf2 );\par
+    if (x > v[mid]) return binsearch(v, x, mid + \cf3 1\cf2 , q);\par
+    return mid;\par
+  \}\par
+  return -\cf3 1\cf2 ;\par
+\}\par
+\par
+\cf4\i // Search x in subsequence v_p, \'85 v_q\cf2\i0\par
+\cf4\i // Call with p = 0, q = n - 1\cf2\i0\par
+\cf1 int\cf2  search(\cf1 int\cf2 * v, \cf1 int\cf2  x, \cf1 int\cf2  p, \cf1 int\cf2  q) \{\par
+  if (p <= q) \{\par
+    \cf1 int\cf2  mid = (p + q) / \cf3 2\cf2 ;\par
+    if (v[mid] == x) return mid;\par
+   \par
+    if (v[mid] < v[q] && x > v[mid] && x <= v[q]) \par
+\tab return binsearch(v, x, mid + \cf3 1\cf2 , q);\par
+    if (v[mid] > v[p] && x < v[mid] && x >= v[p]) \par
+\tab return binsearch(v, x, p, mid - \cf3 1\cf2 );\par
+    \par
+    if (v[mid] <= v[q]) return search(v, x, p, mid - \cf3 1\cf2 );\par
+    return search(v, x, mid + \cf3 1\cf2 , q);\par
+  \}\par
+  return -\cf3 1\cf2 ;\par
+\}\par
+\pard\nowidctlpar\cf0\f1\par
+\par
+\b\page\f0 Write some code to reverse a string.\par
+\f1\par
+\b0\f0   int N = a.length();\par
+  int i = N;\par
+  char string_stack[N];\par
+  \par
+  for(char c : a) \{\par
+    --i;\par
+    string_stack[i] = c;\par
+\pard\nowidctlpar\fi195\f1\}\par
+\par
+\f0 for(int i = 0; i < N; ++i)\par
+  cout << string_stack[i];\par
+cout << endl;\par
+\pard\nowidctlpar\b\f1\page\f0 Implement division (without using the divide operator, obviously).\par
+\f1\par
+\b0\f0   int p = 132, q = 17, x, r;\par
+\par
+  for(int i = 1; i < p; ++i) \{\par
+    if(q * i == p) \{\par
+      x = i;\par
+      r = 0;\par
+      break;\par
+    \}\par
+    else if(q * i < p && q * (i + 1) > p) \{\par
+      x = i;\par
+      r = p - q * i;\par
+      break;\par
+    \}\par
+  \}\par
+\par
+  cout << "quotient = " << x << ", remainder = " << r << endl;\par
+\b\f1\page\f0 Write some code to find all permutations of the letters in a particular string.\par
+\f1\par
+\b0\f0 void permute_swap(char* a, int i, int j) \{\par
+  char x = a[i];\par
+  a[i] = a[j];\par
+  a[j] = x;\par
+\}\par
+\par
+void permute(char* a, int N, int x) \{\par
+  if(x == N) \{\par
+    for(int i = 0; i < N; ++i)\par
+      cout << a[i];\par
+    cout << endl;\par
+    return;\par
+  \}\par
+\par
+  for(int i = x; i < N; ++i) \{\par
+    permute_swap(a, i, x);\par
+    permute(a, N, x + 1);\par
+    permute_swap(a, i, x);\par
+  \}\par
+\}\par
+\par
+\par
+int main() \{\par
+  char a[3] = \{'a', 'b', 'c'\};\par
+\par
+  permute(a, 3, 0);\par
+\par
+  return 0;\par
+\}\par
+\b\f1\page\f0 You are given an array [a1 to an] and we have to construct another array [b1 to bn] where bi = a1*a2*\'85*an / ai. You are allowed to use only constant space and the time complexity is O(n). No divisions are allowed.\f1\par
+\par
+\b0\f0   int N = 5;\par
+  int input[N];\par
+  for(int i = 0; i < N; ++i)\par
+    input[i] = rand() % 5 + 1;\par
+\par
+  for(int i = 0; i < N; ++i)\par
+    cout << input[i] << " ";\par
+  cout << endl;\par
+\par
+  int output[N];\par
+  output[0] = 1;\par
+\par
+  for(int i = 1; i < N; ++i)\par
+    output[i] = output[i - 1] * input[i - 1];\par
+\par
+  int output2[N];\par
+  output2[N - 1] = 1;\par
+  for(int i = N - 2; i >= 0; --i)\par
+    output2[i] = output2[i + 1] * input[i + 1];\par
+\par
+  for(int i = 0; i < N; ++i)\par
+    output[i] = output[i] * output2[i];\par
+\par
+  for(int i = 0; i < N; ++i)\par
+    cout << output[i] << " ";\par
+  cout << endl;\par
+\par
+  return 0;\par
+\b\f1\page\f0 How do you find out the fifth maximum element in a Binary Search Tree in an efficient manner. Note: You should not use any extra space. i.e\f1 .,\f0  sorting Binary Search Tree and storing the results in an array and listing out the fifth element.\f1\par
+\b0\par
+\f0 Find max in O(h), then run predecessor 4 times in O(h).\f1\par
+\par
+\f0 or\par
+\par
+int num=0;\par
+void max(tree*t)\par
+\{\par
+        if(t==NULL)\par
+                return;\par
+        max(t->right);\par
+        num++;\par
+        if(num==5)\par
+                printf("%d\b\f1\\\b0\f0 n",t->no);\par
+        max(t->left);\par
+\}\par
+\f1\par
+\b\par
+\par
+\page\f0 Design a stack. We want to push, pop, and also, retrieve the minimum element in constant time.\par
+\pard\nowidctlpar\sl276\slmult1\b0\f1\par
+\f0 class StackSample \{\par
+ public:\par
+  StackSample(int n);\par
+  ~StackSample();\par
+  void Push(int x);\par
+  int Pop();\par
+  void GetMin();\par
+  void PrintStack();\par
+\par
+ private:\par
+  int stack_size;\par
+\pard\nowidctlpar\fi270\sl276\slmult1 int* stack_array;\par
+int* min_array;\par
+\pard\nowidctlpar\sl276\slmult1   int stack_end_loc, min_end_loc;\par
+\};\par
+\par
+StackSample::StackSample(int n) \{\par
+  stack_size = n;\par
+  stack_end_loc = 0;\par
+  min_end_loc = 0;\par
+  stack_array = new int[n];\par
+  min_array = new int[n];\par
+\}\par
+\par
+StackSample::~StackSample() \{\par
+  delete stack_array;\par
+  delete min_array;\par
+\}\par
+\par
+void StackSample::Push(int x) \{\par
+  if(stack_end_loc == stack_size) \{\par
+    cout << "Stack full!" << endl;\par
+    return;\par
+  \}\par
+  stack_array[stack_end_loc] = x;\par
+  ++stack_end_loc;\par
+\par
+  if(x <= min_array[min_end_loc - 1]) \{\par
+    min_array[min_end_loc] = x;\par
+    ++min_end_loc;\par
+  \}\par
+\}\par
+\par
+int StackSample::Pop() \{\par
+  if(stack_end_loc == 0) \{\par
+    cout << "Stack empty!" << endl;\par
+    return -1;\par
+  \}\par
+  --stack_end_loc;\par
+\par
+  if(stack_array[stack_end_loc] == min_array[min_end_loc - 1])\par
+    --min_end_loc;\par
+\par
+  return stack_array[stack_end_loc];\par
+\}\par
+\par
+void StackSample::GetMin() \{\par
+  cout << min_array[min_end_loc - 1] << endl;\par
+\}\par
+\par
+void StackSample::PrintStack() \{\par
+  if(stack_end_loc == 0) \{\par
+    cout << "Stack empty!" << endl;\par
+    return;\par
+  \}\par
+  for(int i = 0; i < stack_end_loc; ++i)\par
+    cout << stack_array[i] << " ";\par
+  cout << endl;\par
+\}\par
+\par
+\b\f1\page\f0 Given a set of coin denominators, find the minimum number of coins to give a certain amount of change.\par
+\b0   int X = 75;\par
+  int d1 = 1, d2 = 5, d3 = 10, d4 = 25;\par
+  int N = 0, N_min = 100;\par
+\par
+  for(int i4 = 0; i4 <= X / d4; ++i4)\par
+    for(int i3 = 0; i3 <= (X - i4 * d4) / d3; ++i3)\par
+      for(int i2 = 0; i2 <= (X - i4 * d4 - i3 * d3) / d2; ++i2)\par
+        for(int i1 = 0; i1 <= (X - i4 * d4 - i3 * d3 - i2 * d2) / d1; ++i1)\par
+          if(X - i4 * d4 - i3 * d3 - i2 * d2 - i1 * d1 == 0) \{\par
+            N = i1 + i2 + i3 + i4;\par
+            if(N <= N_min)\par
+              N_min = N;\par
+          \}\par
+\par
+  cout << N_min << endl;\par
+\b\f1\par
+\page\f0 Write a function to find the middle node of a single linked list.\f1\par
+\par
+\b0\f0 Traverse linked list using two pointers. Move one pointer by one and other pointer by two. When the fast pointer reaches end slow pointer will reach middle of the linked list.\par
+\par
+void printMiddle(struct node *head)\par
+\{\par
+    struct node *slow_ptr = head;\par
+    struct node *fast_ptr = head;\par
+ \par
+    if (head!=NULL)\par
+    \{\par
+        while (fast_ptr != NULL && fast_ptr->next != NULL)\par
+        \{\par
+            fast_ptr = fast_ptr->next->next;\par
+            slow_ptr = slow_ptr->next;\par
+        \}\par
+        printf("The middle element is [%d]\\n\\n", slow_ptr->data);\par
+    \}\par
+\}\par
+\b\f1\page\f0 Efficiently implement 3 stacks in a single array, \cf5 such that no stack overflows until there is no space left in the entire array space\cf0\f1 .\par
+\par
+\pard\cbpat7\sa240\sl259\slmult0\cf5\b0\f0 For a space (not time) efficient solution, one can try:\par
+1) Define two stacks beginning at the array endpoints and growing in opposite directions.\par
+2) Define the third stack as starting in the middle and growing in any direction you want.\par
+3) Redefine the Push op, so that when the operation is going to overwrite other stack, you shift the whole middle stack in the opposite direction before Pushing.\par
+You need to store the stack top for the first two stacks, and the beginning and end of the third stack in some structure.\par
+\pard\nowidctlpar\sl276\slmult1\cf0\b\f1\par
+\par
+\par
+\par
+\par
+\page\f0 Write a program to find depth of binary search tree without using recursion.\f1\par
+\par
+\pard\sl240\slmult0\cf6\b0\f0 Rec:\par
+int maxHeight(BSTNode *p) \{\par
+\~\~if (!p) return 0;\par
+\~\~int left_height = maxHeight(p->left);\par
+\~\~int right_height = maxHeight(p->right);\par
+\~\~return (left_height > right_height) ? left_height + 1 : right_height + 1;\par
+\}\par
+\par
+\par
+In-order-tree-walk It, using stack:\par
+void in_order_traversal_iterative(BinaryTree *root) \{\par
+\~\~stack<BinaryTree*> s;\par
+\~\~BinaryTree *current = root;\par
+\~\~bool done = false;\par
+\~\~while (!done) \{\par
+\~\~\~\~if (current) \{\par
+\~\~\~\~\~\~s.push(current);\par
+\~\~\~\~\~\~current = current->left;\par
+\~\~\~\~\} else \{\par
+\~\~\~\~\~\~if (s.empty()) \{\par
+\~\~\~\~\~\~\~\~done = true;\par
+\~\~\~\~\~\~\} else \{\par
+\~\~\~\~\~\~\~\~current = s.top();\par
+\~\~\~\~\~\~\~\~s.pop();\par
+\~\~\~\~\~\~\~\~cout << current->data << " ";\par
+\~\~\~\~\~\~\~\~current = current->right;\par
+\~\~\~\~\~\~\}\par
+\~\~\~\~\}\par
+\~\~\}\par
+\}\par
+\par
+Depth_it_version can use the above with \ldblquote cout << current->data\rdblquote  replaced by \ldblquote cout << s.size()\rdblquote , or something like that.\par
+\par
+\pard\nowidctlpar\sl276\slmult1\cf0\f1\par
+\b\par
+\par
+\par
+\page\f0 Describe recursive merge-sort and its runtime. Write an iterative version in C++/Java/Python.\f1\par
+\par
+\b0\f0 void Merge(int* input, int p, int q, int r) \{\par
+  int n_l = q - p + 1;\par
+  int n_r = r - q;\par
+\par
+  int array_l[n_l + 1];\par
+  int array_r[n_r + 1];\par
+\par
+  for(int i = 0; i < n_l; ++i)\par
+    array_l[i] = input[p + i];\par
+  array_l[n_l] = 10000;\par
+\par
+  for(int i = 0; i < n_r; ++i)\par
+    array_r[i] = input[q + 1 + i];\par
+  array_r[n_r] = 10000;\par
+\par
+  int i_l = 0, i_r = 0;\par
+\par
+  for(int i = p; i <= r; ++i) \{\par
+    if(array_l[i_l] > array_r[i_r]) \{\par
+      input[i] = array_r[i_r];\par
+      ++i_r;\par
+    \}\par
+    else \{\par
+      input[i] = array_l[i_l];\par
+      ++i_l;\par
+    \}\par
+  \}\par
+\}\par
+\par
+void MergeSortRec(int* input, int p, int q) \{\par
+  int r = (p + q) / 2;\par
+\par
+  if(p < q) \{\par
+    MergeSortRec(input, p, r);\par
+    MergeSortRec(input, r + 1, q);\par
+    Merge(input, p, r, q);\par
+  \}\par
+\}\par
+\par
+void MergeSortIt(int* input, int N) \{\par
+  for(int i = 1; i <= N / 2 + 1; i *= 2)\par
+    for(int j = i; j < N; j += 2 * i) \{\par
+      int q = (j + i >= N) ? (N - 1) : (j + i - 1);\par
+      Merge(input, j - i, j - 1, q);\par
+    \}\par
+\}\par
+\b\f1\par
+\par
+\par
+\pard\nowidctlpar\page\f0 Given a Data Structure having first n integers and next n chars. A = i1 i2 i3 \'85 in c1 c2 c3 \'85  cn. Write an in-place algorithm to rearrange the elements of the array as A = i1 c1 i2 c2 \'85 in cn.\f1\par
+\par
+\b0\f0 O(n^2):\par
+Data[n] = \{1,2,\'85,n,a_1,a_2,\'85,a_n\};\f1\par
+\f0 int x; char y;\par
+for(int i = 1; i < n; ++i) \{\par
+  x = Data[2 * i - 1];\par
+  y = Data[n - 1 + i];\par
+  for(int j = n - 1 + i; j > 2 * i; --j)\par
+    Data[j] = Data[j - 1];\par
+  Data[2 * i - 1] = y;\par
+  Data[2 * i] = x;\par
+\}\f1\par
+\b\par
+\b0\f0 O(n log n):\par
+\par
+void rearrange(int A[],int begin,int end) \{ \par
+  if(begin+1==end) \par
+    return; \par
+  if(begin<end)\{ \par
+    int mid=(begin+end)/2; \par
+    int r1=(begin+mid)/2; \par
+    int r2=(mid+1+end)/2; \par
+    int d=mid-begin; \par
+    int i,j; \par
+    if(d%2!=0) \{\par
+      j=mid+1; \par
+      for(i=r1+1;i<=mid;i++) \par
+        swap(&A[i],&A[j++]); \par
+      rearrange(A,begin,mid); \par
+      rearrange(A,mid+1,end); \par
+    \} \par
+    else \{ \par
+      j=mid+1; \par
+      for(i=r1;i<=mid;i++) \par
+        swap(&A[i],&A[j++]); \par
+      swap(&A[mid],&A[mid+1]); \par
+      rearrange(A,begin,mid-1); \par
+      rearrange(A,mid+2,end); \par
+    \} \par
+  \} \par
+\}\f1\par
+\par
+\par
+\par
+\par
+\par
+\par
+\f0 Or\par
+\par
+void swap(char* a, char* b) \{\par
+  char c = *a;\par
+  *a = *b;\par
+  *b = c;\par
+\}\par
+\par
+void change(char* a, int p, int q) \{\par
+  int n = q - p + 1;\par
+  int mid = (p + q) / 2;\par
+  if (n > 3) \{\par
+    if (n % 4 == 0) \{\par
+      for (int i = 0; i < n/4; i++)\par
+         swap(a + p + i + n/4, a + p + i + n/2);\par
+      change(a, p,  mid);           \par
+      change(a,  mid + 1, q);\par
+    \} else if (n % 4 == 2) \{\par
+      char c = a[mid];\par
+      for (int i = mid; i < q - 1; i++)\par
+        a[i] = a[i + 1];\par
+      a[q - 1] = c;\par
+      change(a, p, q - 2);\par
+    \}\par
+  \}\par
+\}\par
+\par
+bool test(const char* const si, const char* rs) \{\par
+  char s[100];\par
+  strcpy(s, si);\par
+  change(s, 0, strlen(s) - 1);\par
+  bool result = strcmp(s, rs) == 0;\par
+  if (result) printf("PASSSED %s\\n", s);\par
+  else printf("FAIL %s\\n", s);\par
+  return result;\par
+\}\f1\line\par
+\par
+\par
+\b\par
+\page\f0 Given two files that has list of words (one per line), write a program to show the intersection.\b0\f1\par
+\pard\nowidctlpar\sl276\slmult1\b\par
+\b0\f0 Build a hash table for file A. Search the table for each word in file B.\f1\par
+\par
+\f0 Sort and merge-sort-like process.\par
+\f1\par
+\par
+\b\f0 Given two linked lists, return the intersection of the two lists\f1 ,\f0  i.e.\f1 ,\f0  return a list containing only the elements that occur in both of the input lists.\par
+\b0\f1\par
+\par
+\b\f0 Design and describe a system/application that will most efficiently produce a report of the top 1 million Google search requests. These are the particulars: 1) You are given 12 servers to work with.  They are all dual-processor machines with 4Gb of RAM, 4x400GB hard drives and networked  together.(Basically, nothing more than high-end PC\rquote s) 2) The log data has already been cleaned for  you. It consists of 100 Billion log lines, broken down into 12 320 GB files of 40-byte search terms per line. 3) You can use only custom written applications or available free open-source software.\f1\par
+\par
+\par
+\f0 You are given a game of Tic Tac Toe. You have to write a function in which you pass the whole game and name of a player. The function will return whether the player has won the game or not. First you to decide which data structure you will use for the game. You need to tell the algorithm first and then need to write the code. Note: Some position may be blank in the game? So your data structure should consider this condition also.\f1\par
+\par
+\par
+\pard\nowidctlpar\f0 Design a class library for writing card games.\par
+\pard\nowidctlpar\sl276\slmult1\f1\par
+\par
+\f0 Design an algorithm to play a game of Frogger and then code the solution. The object of the game is to direct a frog to avoid cars while crossing a busy road. You may represent a road lane via an array. Generalize the solution for an N-lane road.\f1\par
+\par
+\par
+\pard\nowidctlpar\f0 If you have 1 million integers, how would you sort them efficiently? (Modify a specific sorting algorithm to solve this.)\par
+\par
+\b0 Counting sort?\f1\par
+\par
+\par
+\b\f0 Find or determine non-existence of a number in a sorted list of N numbers where the numbers range over M, M >> N and N large enough to span multiple disks. Algorithm to beat O(log n) bonus points for constant time algorithm.\f1\par
+\b0\par
+\par
+\b\f0 How do you put a Binary Search Tree in an array in an efficient manner. Hint: If the node is stored at the i-th position and its children are at 2i and 2i+1(I mean level order wise), it\rquote s not the most efficient way.\f1\par
+\par
+\par
+\f0 Given that one of the strings is very long, and the other one could be of various sizes. Windowing will result in O(N+M) solution but could it be better? May be NlogM or even better?\f1\par
+\par
+\par
+\f0 Write a program for displaying the ten most frequent words in a file such that your program should be efficient in all complexity measures.\par
+\pard\sa160\sl252\slmult1\b0\f1\par
+\b\f0 Given two binary trees, write a compare function to check if they are equal or not. Being equal means that they have the same value and same structure.\f1\par
+\par
+\pard\nowidctlpar\sl276\slmult1\f0 Implement put/get methods of a fixed size cache with LRU replacement algorithm.\par
+\pard\sa160\sl252\slmult1\b0\f1\par
+\pard\nowidctlpar\sl276\slmult1\b\f0 You are given with three sorted arrays (in ascending order), you are required to find a triplet (one element from each array) such that distance is minimum. Distance is defined like this: If a[i], b[j] and c[k] are three elements then distance = max(abs(a[i]- b[j]),abs(a[i]-c[k]),abs(b[j]-c[k])). Give a solution in O(n) time complexity.\f1\par
+\par
+\par
+\f0 Given an array whose elements are sorted, return the index of the first occurrence of a specific integer. Do this in sub-linear time. I.e. do not just go through each element searching for that element.\f1\par
+\par
+\par
+\f0 Write a function that flips the bits inside a byte (either in C++ or Java). Write an algorithm that take a list of n words, and an integer m, and retrieves the m-th most frequent word in that list.\f1\par
+\par
+\par
+\f0 Given that you have one string of length N and M small strings of length L. How do you efficiently find the occurrence of each small string in the larger one?\f1\par
+\par
+\par
+\f0 There are some data represented by(x,y,z). Now we want to find the K-th least data. We say (x1, y1, z1) > (x2, y2, z2) when value(x1, y1, z1) > value(x2, y2, z2) where value(x,y,z) = (2^x)*(3^y)*(5^z).  Now we can not get it by calculating value(x,y,z) or through other indirect calculations as lg(value (x,y,z)). How to solve it?\f1\par
+\par
+\par
+\f0 Create a cache with fast look\f1 -\f0 up that only stores the N most recently accessed items.\par
+\b0\f1\par
+\pard\sa160\sl252\slmult1\f0 Queue, but what fast look-up?\f1\par
+\pard\nowidctlpar\par
+\b\page\f0 There is a linked list of numbers of length N. N is very large and you don\rquote t know N. You have to write a function that will return k random numbers from the list. Numbers should be completely random. \par
+Hint: 1. Use random function rand() (returns a number between 0 and 1) and irand() (return either 0 or 1). 2. It should be done in O(n).\par
+\par
+\pard\cf7{\field{\*\fldinst{HYPERLINK "http://code-slim-jim.blogspot.com/2010/06/reservoir-sampling.html" }}{\fldrslt{Reservoir Sampling - K samples from an infinite stream}}}\f0\fs22\par
+\pard\sl245\slmult0\b0 Question;\line You have a stream of infinite queries (ie Google searches). Describe how you would find K uniformly distributed samples and write code for it.\line\line Reservoir Sampling is an algorithm designed to take K samples from a stream of samples of unknown size in linear time.\line\line How it works.\line The idea is simple. Firstly note that until the samples appear you don't know the total number of samples. To avoid this problem you fill up a reservoir of samples and then adjust it as each new sample appears.\line\line First record samples until you have filled the reservoir(K samples). Once you have the first K samples the probability of each sample being in the final result was K/K or 100%.\line\line Now when the K+i sample appears the probability of the new sample appearing in one _PARTICULAR_ output slot becomes 1/K+i. Since there are K potential output slots there is K/(K+i) chance of it being in the output and i/(K+i) chance that it wont be.\line\line So choosing whether or not to add the new sample is easy we toss the dice. If we decide that the new sample is in the output then one of the existing items needs to be removed. Since all the items that where added to output and have equal chance of being present they also have equal chance of being removed. Hence we can simply choose to remove one of the existing samples with a 1/K probability.\~\line\line This make sense logically but how do we prove it.\~\par
+\pard\sa60\tx720\f2\fs20\'b7\tab\f0\fs22 Assuming the prior stage worked correctly each element in the output should have K/(K+i-1) chance of being present.\par
+\pard\sa60\f2\fs20\'b7\tab\f0\fs22 There is i/(K+i) chance that prior output will be unchanged this round. Hence each element has Ki/(K+i)(K+i-1) chance of being output if the unchanging choice is made for this stage.\par
+\f2\fs20\'b7\tab\f0\fs22 There is K/(K+i) chance that this something in the output will change\par
+\pard\sa60\tx1440\f2\fs20\'b7\tab\f0\fs22 And for each element there is (K-1)/K chance it will not be replaced thus a total of (K-1)/K * K/(K+i) * K/(K+i-1) chance it will not be removed.\par
+\pard\sa60\f2\fs20\'b7\tab\f0\fs22 So conversely there is a 1/K * K/(K+i) * K/(K+i-1) chance that it will be replaced.\par
+\pard\sl245\slmult0\line Hence the net chance of the existing elements making it to the next round is the sum of the chance that nothing changed with the chance that it was not the one that changed.\line\par
+\pard\sl218\slmult0\tx916\tx1832\tx2748\tx3664\tx4580\tx5496\tx6412\tx7328\tx8244\tx9160\tx10076\tx10992\tx11908\tx12824\tx13740\tx14656 = Ki/(K+i)(K+i-1) + (K-1)K/(K+i-1)(K+i)\par
+=> (Ki + (K-1)K)/(K+i-1)(K+i)\par
+=> K(i+K-1)/(K+i-1)(K+i)\par
+=> K/(K+i)\par
+Q.E.D.\par
+\pard\sl245\slmult0\line And of course the chance of the new element making to the output was K/(K+i). As you can see it has nicely balanced out for the possible output items for this stage.\~\line\line BUT HERE IS THE CATCH.. Note that the mathematics/algorithm considered only the choice between output and non-output state of the samples. IT MADE NO STATEMENT AS TO THE OUTPUTS ORDERING. Hence the output samples need to be randomly shuffled in the final stages of the algorithm or there will be an issue with the ordering of the samples.\line\line The code:\par
+\pard{\field{\*\fldinst{HYPERLINK "http://code-slim-jim.blogspot.com/2010/06/reservoir-sampling.html" }}{\fldrslt{\cf8\ul ?}}}\cf7\ulnone\f0\fs22\par
+\trowd\trgaph10\trleft-10\trpaddl10\trpaddr10\trpaddfl3\trpaddfr3
+\clvertalc\cellx549\clvertalc\cellx11390\pard\intbl\cf0 1\par
+2\par
+3\par
+4\par
+5\par
+6\par
+7\par
+8\par
+9\par
+10\par
+11\par
+12\par
+13\par
+14\par
+15\par
+16\par
+17\par
+18\par
+19\par
+20\par
+21\par
+22\par
+23\par
+24\par
+25\par
+26\par
+27\par
+28\par
+29\par
+30\par
+31\par
+32\par
+33\par
+34\par
+35\par
+36\par
+37\par
+38\par
+39\par
+40\cell //compile using g++\par
+#include <iostream>\par
+using namespace std;\par
+\~\par
+int reservoirSample(int sample, int* samples, int size, int count)\par
+\{\par
+\~\~if(count < size)\par
+\~\~\~\~samples[count] = sample;\par
+\~\~else\par
+\~\~\~\~if((rand()%count) < size)\par
+\~\~\~\~\~\~samples[rand()%size] = sample;\par
+\~\~\~\par
+\~\~return ++count;\par
+\}\par
+\~\par
+#define SIZE 10\par
+// #define STREAM_AVERAGE 300\par
+#define STREAM_AVERAGE 10\par
+int main()\par
+\{\par
+\~\~int count = 0;\par
+\~\~int samples[SIZE];\par
+\~\~int sample;\par
+\~\~int i = 0;\par
+\~\par
+\~\~srand(time(NULL));\par
+\~\par
+\~\~cout << "Sample Stream: " << endl;\par
+\~\~while(\par
+\~\~\~\~\~\~\~\~(count < SIZE) || \par
+\~\~\~\~\~\~\~\~(rand()%STREAM_AVERAGE > 0)\par
+\~\~\~\~\~\~\~\~)\par
+\~\~\~\~\{\par
+\~\~\~\~\~\~sample = rand()%1000;\par
+\~\~\~\~\~\~cout << sample << " ";\par
+\~\par
+\~\~\~\~\~\~count = reservoirSample(sample, samples, SIZE, count);\par
+\~\~\~\~\}\par
+\~\~cout << endl;\par
+\~\~cout << "Total samples: " << count << endl;\par
+\~\par
+\~\~cout << "Output samples: " << endl;\par
+\~\~for(i = 0;i < SIZE;i++)\par
+\~\~\~\~cout << samples[i] << " ";\par
+\~\~cout << endl;\par
+\}\cell\row\pard\nowidctlpar\sl276\slmult1\b\f1\par
+\page\f0 Find the maximum rectangle (in terms of area) under a histogram in linear time.\par
+\par
+\b0 int Area(int* input, int start, int finish) \{\par
+  if(start == finish)\par
+    return input[start];\par
+\par
+  int min = 10000;\par
+  for(int i = start; i <= finish; ++i)\par
+    if(input[i] < min)\par
+      min = input[i];\par
+\par
+  return (finish - start + 1) * min;\par
+\}\par
+\f1\par
+\f0 O(N^2):\par
+\par
+\pard\nowidctlpar\fi225\sl276\slmult1   int input[100];\par
+  for(int i = 0; i < 100; ++i)\par
+    input[i] = rand() % 100;\par
+\par
+  int max = 0;\par
+  int s, f;\par
+\par
+  for(int i = 0; i < 100; ++i)\par
+    for(int j = i; j < 100; ++j) \{\par
+      int k = Area(input, i, j);\par
+      if(k > max) \{\par
+        max = k; s = i; f = j;\par
+      \}\par
+    \}\par
+\par
+  cout << "Area = " << max << ", start = " << s << ", finish = " << f << endl;\f1\par
+\par
+\cf9\f3\fs20\par
+We process the elements in left-to-right order and maintain a stack of information about started but yet unfinished subhistograms. Whenever a new element arrives it is subjected to the following rules. If the stack is empty we open a new subproblem by pushing the element onto the stack. Otherwise we compare it to the element on top of the stack. If the new one is greater we again push it. If the new one is equal we skip it. In all these cases, we continue with the next new element.\~\line If the new one is less, we finish the topmost subproblem by updating the maximum area w.r.t. the element at the top of the stack. Then, we discard the element at the top, and repeat the procedure keeping the current new element. This way, all subproblems are finished until the stack becomes empty, or its top element is less than or equal to the new element, leading to the actions described above. If all elements have been processed, and the stack is not yet empty, we finish the remaining subproblems by updating the maximum area w.r.t. to the elements at the top.\~\line For the update w.r.t. an element, we find the largest rectangle that includes that element. Observe that an update of the maximum area is carried out for all elements except for those skipped. If an element is skipped, however, it has the same largest rectangle as the element on top of the stack at that time that will be updated later.\~\line The height of the largest rectangle is, of course, the value of the element. At the time of the update, we know how far the largest rectangle extends to the right of the element, because then, for the first time, a new element with smaller height arrived. The information, how far the largest rectangle extends to the left of the element, is available if we store it on the stack, too.\~\line We therefore revise the procedure described above. If a new element is pushed immediately, either because the stack is empty or it is greater than the top element of the stack, the largest rectangle containing it extends to the left no farther than the current element. If it is pushed after several elements have been popped off the stack, because it is less than these elements, the largest rectangle containing it extends to the left as far as that of the most recently popped element.\~\line Every element is pushed and popped at most once and in every step of the procedure at least one element is pushed or popped. Since the amount of work for the decisions and the update is constant, the complexity of the algorithm is\~\i O(n)\i0\~by amortized analysis.\par
+\par
+\cf0\f0\fs22 int largestArea(int arr[], int len) \f1\{\par
+\f0   int area[len]; //initialize it to 0\par
+  int n, i, t;\par
+  stack<int> St;  //include stack for using this #include<stack>\par
+  bool done;\par
+\par
+  for (i=0; i<len; i++) \f1\{\par
+\f0     while (!St.empty()) \f1\{\par
+\f0       if(arr[i] <= arr[St.top()]) \f1\{\par
+\f0         St.pop();\par
+      \f1\}\par
+\f0      else\par
+       break;\par
+   \f1\}\par
+\f0   if(St.empty())\par
+    t = -1;\par
+  else\par
+    t = St.top();\par
+//Calculating Li\par
+  area[i] = i - t - 1;\par
+  St.push(i);\par
+\}\par
+\par
+//clearing stack for finding Ri\par
+while (!St.empty())\par
+St.pop();\par
+\par
+for (i=len-1; i>=0; i--)\par
+\{\par
+while (!St.empty())\par
+\{\par
+   if(arr[i] <= arr[St.top()])\par
+   \{\par
+       St.pop();\par
+   \}\par
+   else\par
+       break;\par
+\}\par
+if(St.empty())\par
+   t = len;\par
+else\par
+   t = St.top();\par
+//calculating Ri, after this step area[i] = Li + Ri\par
+area[i] += t - i -1;\par
+St.push(i);\par
+\}\par
+\par
+int max = 0;\par
+//Calculating Area[i] and find max Area\par
+for (i=0; i<len; i++)\par
+\{\par
+area[i] = arr[i] * (area[i] + 1);\par
+if (area[i] > max)\par
+   max = area[i];\par
+\}\par
+\par
+return max;\par
+\}\f1\par
+\pard\nowidctlpar\b\page\f0 Suppose you have an NxN matrix of positive and negative integers. Write some code that finds the sub-matrix with the maximum sum of its elements.\par
+\par
+\b0 O(N^6):\par
+\par
+int main() \{\par
+  int N = 20;\par
+  int full_mat[N][N];\par
+\par
+  for(int i = 0; i < N; ++i)\par
+    for(int j = 0; j < N; ++j)\par
+      full_mat[i][j] = rand() % 200 - 100;\par
+\par
+  for(int i = 0; i < N; ++i) \{\par
+    for(int j = 0; j < N; ++j)\par
+      cout << full_mat[i][j] << " ";\par
+    cout << endl;\par
+  \}\par
+  cout << endl;\par
+\par
+  long sum, sum_max = 0;\par
+  int loc_row = 0, loc_col = 0, size_row = 0, size_col = 0;\par
+\par
+  for(int i = 0; i < N; ++i)\par
+  for(int j = 0; j < N; ++j) \{\par
+    for(int k = 1; k <= N - i; ++k)\par
+    for(int l = 1; l <= N - j; ++l) \{\par
+      sum = 0;\par
+      for(int m = 0; m < k; ++m)\par
+      for(int n = 0; n < l; ++n)\par
+        sum += full_mat[i + m][j + n];\par
+\par
+      if(sum >= sum_max) \{\par
+        sum_max = sum;\par
+        loc_row = i;\par
+        loc_col = j;\par
+        size_row = k;\par
+        size_col = l;\par
+      \}\par
+    \}\par
+  \}\par
+\par
+  cout << "The max of sum occurs for the " << size_row << " x " << size_col << " submatrix" << endl;\par
+  cout << "whose upper-left element is (" << loc_row << ", " << loc_col << ") component of the full matrix.";\par
+\par
+  return 0;\par
+\}\par
+\pard\nowidctlpar\sl276\slmult1\b Given an array, i) find the longest continuous increasing subsequence. ii) find the longest increasing subsequence.\par
+\b0\f1\par
+\pard{\field{\*\fldinst{HYPERLINK "http://stackoverflow.com/questions/2631726/how-to-determine-the-longest-increasing-subsequence-using-dynamic-programming"}}{\fldrslt{\ul\cf8 http://stackoverflow.com/questions/2631726/how-to-determine-the-longest-increasing-subsequence-using-dynamic-programming}}}\f1\fs22\par
+\par
+{\field{\*\fldinst{HYPERLINK "http://worldofbrock.blogspot.com/2009/10/how-to-find-longest-continuous.html"}}{\fldrslt{\ul\cf8 http://worldofbrock.blogspot.com/2009/10/how-to-find-longest-continuous.html}}}\f1\fs22\par
+\par
+{\field{\*\fldinst{HYPERLINK "http://www.geeksforgeeks.org/dynamic-programming-set-3-longest-increasing-subsequence/"}}{\fldrslt{\ul\cf8 http://www.geeksforgeeks.org/dynamic-programming-set-3-longest-increasing-subsequence/}}}\f1\fs22\par
+\par
+{\field{\*\fldinst{HYPERLINK "http://stackoverflow.com/questions/4938833/find-longest-increasing-sequence"}}{\fldrslt{\ul\cf8 http://stackoverflow.com/questions/4938833/find-longest-increasing-sequence}}}\f1\fs22\par
+\par
+\f0   int sample_array[100];\par
+  for(int i = 0; i < 100; ++i) \{\par
+    sample_array[i] = rand() % 100;\par
+    cout << sample_array[i] << " ";\par
+    if(i % 10 == 9)\par
+      cout << endl;\par
+  \}\par
+  cout << endl;\par
+\par
+i)\par
+  int start = 0, len = 1, start_max = 0, len_max = 1;\par
+\par
+  for(int i = 0; i < 99; ++i) \{\par
+    if(sample_array[i + 1] > sample_array[i])\par
+      ++len;\par
+    else \{\par
+      if(len > len_max) \{\par
+        len_max = len;\par
+        start_max = start;\par
+      \}\par
+      start = i + 1;\par
+      len = 1;\par
+    \}\par
+  \}\par
+\par
+\pard\nowidctlpar\fi225\sl276\slmult1 cout << start_max << "  " << len_max << endl;\par
+\f1\par
+\par
+\pard\nowidctlpar\sl276\slmult1\f0 ii)\par
+  int len = 1, len_max = 1;\par
+  int temp[100], out[100];\par
+\par
+  for(int i = 0; i < 99; ++i) \{\par
+    temp[0] = sample_array[i];\par
+    for(int j = i; j < 99; ++j) \{\par
+      if(sample_array[j + 1] <= temp[len - 1])\par
+        continue;\par
+      temp[len] = sample_array[j + 1];\par
+      ++len;\par
+    \}\par
+\par
+    if(len > len_max) \{\par
+      len_max = len;\par
+      for(int k = 0; k < len_max; ++k)\par
+        out[k] = temp[k];\par
+    \}\par
+    len = 1;\par
+  \}\par
+\par
+  cout << len_max << endl;\par
+  for(int i = 0; i < len_max; ++i) \{\par
+    cout << out[i] << " ";\par
+    if(i % 10 == 9)\par
+      cout << endl;\par
+  \}\par
+\b\f1\par
+\par
+\f0 Given two sequences of items, find the items whose absolute number increases or decreases the most when comparing one sequence with the other by reading the sequence only once.\f1\par
+}
+ 

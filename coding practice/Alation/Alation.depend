@@ -1,0 +1,17 @@
+# depslib dependency file v1.0
+1407034629 source:c:\users\minjoon\dropbox\works\alation\main.cpp
+	<iostream>
+	"DB.h"
+
+1407043159 c:\users\minjoon\dropbox\works\alation\db.h
+	<iostream>
+	<fstream>
+	<string>
+	<map>
+	<vector>
+	<sstream>
+	<set>
+
+1407139817 source:c:\users\minjoon\dropbox\works\alation\db.cpp
+	"DB.h"
+

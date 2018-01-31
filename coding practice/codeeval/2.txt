@@ -1,0 +1,16 @@
+abc
+abd
+bcde
+END OF INPUT
+abc
+abd
+acc
+ace
+bcd
+bcx
+abcde
+abcce
+abxxe
+bcdez
+cdefy
+bcde
