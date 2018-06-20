@@ -1,3 +1,10 @@
+# int to str of base b
+def f(n, b):
+	if n // b == 0:
+		return str(n)
+	return f(n // b, b) + str(n % b)
+
+
 # Hamming dist
 def _to_bin(i):
 	if not i:
