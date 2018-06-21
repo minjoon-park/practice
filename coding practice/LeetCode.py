@@ -1,3 +1,15 @@
+# palindrome check
+def is_palindrome(s):
+	s = s.strip(" '\",.")
+	
+	if len(s) <= 1:
+		return True
+	if len(s) == 2:
+		return s[0] == s[1]
+		
+	return s[0] == s[-1] and is_palindrome(s[1:-1])
+
+
 # int to str of base b
 def f(n, b):
 	if n // b == 0:
